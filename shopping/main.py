@@ -20,6 +20,7 @@ def main():
     cart.add_to_cart(shirt)
     cart.add_to_cart(pants)
     print(cart)
+    print(cart.items_by_category)
 
 if __name__ == "__main__":  # pragma: no cover
     main()

@@ -17,7 +17,7 @@ class Cart:
         self._items.pop()
 
     @property
-    def get_items_count(self) -> int:
+    def items_count(self) -> int:
         return len(self._items)
 
     @property
@@ -28,9 +28,9 @@ class Cart:
     def items_by_category(self) -> dict[Category, list[Clothing]]:
         items_by_category: dict[Category, List[Clothing]] = {}
         for item in self._items:
-            items_by_category.setdefault(item.category, []).append(item)
+            items_by_category.setdefault(item.category.value, []).append(item)
 
         return items_by_category
 
     def __str__(self) -> str:
-        return f'Cart has {self.get_items_count} products with ${self.total_price:.2f}'
+        return f'Cart has {self.items_count} products with ${self.total_price:.2f}'

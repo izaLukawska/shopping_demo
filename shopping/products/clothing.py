@@ -25,5 +25,8 @@ class Clothing(ABC):
     def category(self) -> Category:
         return self._category
 
+    def __repr__(self) -> str:
+        return f"{self._name!r}, ${self._price:.2f}"
+
     def __str__(self) -> str:
         return f'{self._category.name} {self._name} has price ${self._price:.2f}'
