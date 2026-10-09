@@ -16,6 +16,10 @@ class Clothing(ABC):
         pass #pragma: no cover
 
     @property
+    def name(self) -> str:
+     return self._name
+
+    @property
     def price(self) -> float:
         return self._price
 
