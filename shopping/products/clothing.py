@@ -12,7 +12,7 @@ class Clothing(ABC):
         Clothing.clothing_count += 1
 
     @abstractmethod
-    def get_description(self) -> str:
+    def description(self) -> str:
         pass #pragma: no cover
 
     @property
@@ -34,7 +34,7 @@ class Clothing(ABC):
         return self._category
 
     def __repr__(self) -> str:
-        return f"{self._name!r}, ${self._price:.2f}"
+        return f'{self._name!r}, ${self._price:.2f}'
 
     def __str__(self) -> str:
         return f'{self._category.name} {self._name} has price ${self._price:.2f}'

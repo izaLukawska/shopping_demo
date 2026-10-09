@@ -6,5 +6,5 @@ class Shirt(Clothing):
     def __init__(self,  name: str, price: float):
         super().__init__(Category.SHIRT, name, price)
 
-    def get_description(self) -> str:
+    def description(self) -> str:
         return f'Shirt: {self._name}'
