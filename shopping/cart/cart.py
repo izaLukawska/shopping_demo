@@ -1,5 +1,5 @@
 from typing import List
-from products import Clothing, Category
+from shopping.products import Clothing
 from .empty_cart_exception import EmptyCartError
 
 

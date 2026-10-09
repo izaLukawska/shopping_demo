@@ -7,12 +7,14 @@ from shopping.products import Pants, Category
 def jeans() -> Pants:
     return Pants('Jeans', 34.00)
 
+
 def test_pants_initialization_and_properties(jeans: Pants):
-    #then
+    # then
     assert jeans.category == Category.PANTS
     assert jeans.name == 'Jeans'
     assert jeans.price == 34.00
 
-def test_pants_description(jeans:Pants):
-    #then
+
+def test_pants_description(jeans: Pants):
+    # then
     assert jeans.description() == 'Pants: Jeans'
