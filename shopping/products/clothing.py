@@ -27,7 +27,7 @@ class Clothing(ABC):
     def price(self, new_price: float) -> None:
         if new_price < 0:
             raise ValueError('Price cannot be negative')
-        self.price = new_price
+        self._price = new_price
 
     @property
     def category(self) -> Category:
