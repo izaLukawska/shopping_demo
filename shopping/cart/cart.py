@@ -1,6 +1,6 @@
 from typing import List
 from products import Clothing, Category
-from empty_cart_exception import EmptyCartError
+from .empty_cart_exception import EmptyCartError
 
 
 class Cart:
@@ -12,9 +12,9 @@ class Cart:
 
     def remove_last_item(self):
         if not self._items:
-            self._items.pop()
-        else:
             raise EmptyCartError('Cannot remove item from empty cart')
+
+        self._items.pop()
 
     @property
     def get_items_count(self) -> int:
