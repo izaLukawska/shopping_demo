@@ -25,8 +25,8 @@ class Cart:
         return sum(item.price for item in self._items)
 
     @property
-    def items_by_category(self) -> dict[Category, list[Clothing]]:
-        items_by_category: dict[Category, List[Clothing]] = {}
+    def items_by_category(self) -> dict[str, list[Clothing]]:
+        items_by_category: dict[str, List[Clothing]] = {}
         for item in self._items:
             items_by_category.setdefault(item.category.value, []).append(item)
 
