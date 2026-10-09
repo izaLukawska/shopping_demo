@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from .category import Category
 
 
@@ -10,6 +10,10 @@ class Clothing(ABC):
         self._name = name
         self._price = price
         Clothing.clothing_count += 1
+
+    @abstractmethod
+    def get_description(self) -> str:
+        pass #pragma: no cover
 
     @property
     def price(self) -> float:
