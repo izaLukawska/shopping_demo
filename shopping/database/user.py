@@ -17,5 +17,11 @@ class User(Base):
     date_of_birth: Mapped[date] = mapped_column(Date, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
+    def __init__(self, username: str, password: str, email: str, **kwargs):
+        super().__init__(**kwargs)
+        self.username = username
+        self.password = password
+        self.email = email
+
     def __repr__(self) -> str:
         return f'<User id={self.user_id}, username={self.username}>'
