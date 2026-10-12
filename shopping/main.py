@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import insert, select, literal, or_, and_
+from sqlalchemy import insert, select, literal, or_, and_, desc
 from sqlalchemy.orm import sessionmaker
 
 from database import Base, engine, User, Task
@@ -53,23 +53,32 @@ def main():
     #     print(sql)
 
     with SessionLocal() as session:
-        stmt = select(User)
+        print('!!!ALL EXAMPLE SORTED BY DESC')
+        stmt = select(User).order_by(User.created_at.desc(), User.user_id.desc())
         results = session.scalars(stmt).all()
         print(results)
 
     with SessionLocal() as session:
+        print('!!!OR_ EXAMPLE')
         stmt = select(User.username).where(or_(User.user_id == 7, User.date_of_birth == None))
         results = session.scalars(stmt).all()
         print(results)
 
     with SessionLocal() as session:
+        print('!!!AND_ EXAMPLE')
         stmt = select(User.username).where(and_(User.user_id == 7, User.date_of_birth == None))
         results = session.scalars(stmt).all()
         print(results)
 
     with SessionLocal() as session:
-        stmt = select(Task.number_id, Task.description, Task.assigned_user_id).where(Task.assigned_user_id == 7,
-                                                                                     Task.is_completed == False)
+        print('!!!NOT IN EXAMPLE')
+        stmt = select(User).where(User.username.not_in(['user5', 'user6']))
+        results = session.scalars(stmt).all()
+        print(results)
+
+    with (SessionLocal() as session):
+        print('!!!WHERE EXAMPLE')
+        stmt = select(Task.description, Task.assigned_user_id).where(Task.assigned_user_id == 7)
         results = session.execute(stmt).mappings().all()  # blad jesli wiecej niz 1 first dziala tho
         print(results)
 
