@@ -1,44 +1,51 @@
+from datetime import datetime
+
+from sqlalchemy import insert
 from sqlalchemy.orm import sessionmaker
 
-from database import Base, engine, User
-from products import Shirt, Pants
-from cart import Cart, EmptyCartError
+from database import Base, engine, User, Task
+
+SessionLocal = sessionmaker(bind=engine)
 
 
 def main():
-    # shirt = Shirt('V-Neck', 23.32)
-    # print(shirt)
-    # pants = Pants('Jeans', 45.11)
-    # pants2 = Pants('Shorts', 34.87)
-    # print(pants)
-    # try:
-    #     pants.price = -10
-    # except ValueError:
-    #     print('Error found: negative price')
+    # dob = datetime.strptime('10.05.2000', '%d.%m.%Y').date()
+    # user2 = User(username='user2', password='secret1234', email='user2@email.com', date_of_birth=dob)
+    # with SessionLocal() as session:
+    #     session.add(user2)
+    #     print('Added' + user2.__repr__())
+    #     session.commit()
+    #     print('Commited' + user2.__repr__())
     #
-    # cart = Cart()
-    # try:
-    #     cart.remove_last_item()
-    # except EmptyCartError:
-    #     print('Error: empty cart')
     #
-    # cart.add_to_cart(shirt)
-    # cart.add_to_cart(pants)
-    # cart.add_to_cart(pants2)
-    # print(cart)
-    # print(cart.items_by_category)
+    # statement = (insert(User)
+    #              .values(username='user3', password='secret1234', email='user3@email.com')
+    #              .returning(User.user_id))
+    # with SessionLocal() as session:
+    #     result = session.execute(statement)
+    #     inserted_id = result.scalar_one()
+    #     session.commit()
+    #     print(inserted_id)
 
-    SessionLocal = sessionmaker(engine)
-    user = User(username='username1', password='secret1234', email='example@email.com')
-    session = SessionLocal()
-    session.add(user)
-    session.commit()
+    # user4 = User(username='user4', password='secret1234', email='user4@email.com')
+    # user5 = User(username='user5', password='secret1234', email='user5@email.com')
+    # with SessionLocal() as session:
+    #     session.add_all([user4, user5])
+    #     session.commit()
+
+    task1 = Task(description='Description 1', priority=1, due_date='2025-11-10', assigned_user_id=1)
+    task2 = Task(description='Description 2', priority=3, due_date='2026-05-05', assigned_user_id=7)
+    task3 = Task(description='Description 3', priority=4, due_date='2026-10-10', assigned_user_id=8)
+    task4 = Task(description='Description 4', priority=6, due_date='2026-12-03', assigned_user_id=7)
+    task5 = Task(description='Description 5', priority=2, due_date='2026-10-10', assigned_user_id=1)
+
+    with SessionLocal() as session:
+        session.add_all([task1, task2, task3, task4, task5])
+        session.commit()
 
 
 def create_db():
-    print("Creating all db")
     Base.metadata.create_all(bind=engine)
-    print("DB created")
 
 
 if __name__ == "__main__":  # pragma: no cover
