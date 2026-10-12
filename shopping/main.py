@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import insert
+from sqlalchemy import insert, select, literal, or_, and_
 from sqlalchemy.orm import sessionmaker
 
 from database import Base, engine, User, Task
@@ -33,15 +33,45 @@ def main():
     #     session.add_all([user4, user5])
     #     session.commit()
 
-    task1 = Task(description='Description 1', priority=1, due_date='2025-11-10', assigned_user_id=1)
-    task2 = Task(description='Description 2', priority=3, due_date='2026-05-05', assigned_user_id=7)
-    task3 = Task(description='Description 3', priority=4, due_date='2026-10-10', assigned_user_id=8)
-    task4 = Task(description='Description 4', priority=6, due_date='2026-12-03', assigned_user_id=7)
-    task5 = Task(description='Description 5', priority=2, due_date='2026-10-10', assigned_user_id=1)
+    # task1 = Task(description='Description 1', priority=1, due_date='2025-11-10', assigned_user_id=1)
+    # task2 = Task(description='Description 2', priority=3, due_date='2026-05-05', assigned_user_id=7)
+    # task3 = Task(description='Description 3', priority=4, due_date='2026-10-10', assigned_user_id=8)
+    # task4 = Task(description='Description 4', priority=6, due_date='2026-12-03', assigned_user_id=7)
+    # task5 = Task(description='Description 5', priority=2, due_date='2026-10-10', assigned_user_id=1)
+    #
+    # with SessionLocal() as session:
+    #     session.add_all([task1, task2, task3, task4, task5])
+    #     session.commit()
+
+    # with SessionLocal() as session:
+    #     stmt = select(User.created_at, User.email) #zapytanie SQLAlchemy i tłumaczy je na kod SQL, który rozumie baza danych.
+    #     sql = stmt.compile(
+    #         session.get_bind(), #pobiera aktualne połączenie z bazą (silnik), ponieważ sposób kompilacji kodu SQL może się minimalnie różnić w zależności od tego, jakiej bazy używasz (PostgreSQL, SQLite, MySQL itp.).
+    #         compile_kwargs={"literal_binds": True} #sprawia, że jeśli w zapytaniu byłyby jakieś parametry (np. WHERE username = 'user1'), to zostaną one wstawione bezpośrednio do tekstu zapytania, zamiast znaków zastępczych (takich jak %s czy ?).
+    #     )
+    #
+    #     print(sql)
 
     with SessionLocal() as session:
-        session.add_all([task1, task2, task3, task4, task5])
-        session.commit()
+        stmt = select(User)
+        results = session.scalars(stmt).all()
+        print(results)
+
+    with SessionLocal() as session:
+        stmt = select(User.username).where(or_(User.user_id == 7, User.date_of_birth == None))
+        results = session.scalars(stmt).all()
+        print(results)
+
+    with SessionLocal() as session:
+        stmt = select(User.username).where(and_(User.user_id == 7, User.date_of_birth == None))
+        results = session.scalars(stmt).all()
+        print(results)
+
+    with SessionLocal() as session:
+        stmt = select(Task.number_id, Task.description, Task.assigned_user_id).where(Task.assigned_user_id == 7,
+                                                                                     Task.is_completed == False)
+        results = session.execute(stmt).mappings().all()  # blad jesli wiecej niz 1 first dziala tho
+        print(results)
 
 
 def create_db():
