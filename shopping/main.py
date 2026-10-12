@@ -1,3 +1,4 @@
+from database import Base, engine, User
 from products import  Shirt, Pants
 from cart import Cart, EmptyCartError
 
@@ -24,5 +25,10 @@ def main():
     print(cart)
     print(cart.items_by_category)
 
+def create_db():
+    print("Creating all db")
+    Base.metadata.create_all(bind=engine)
+    print("DB created")
 if __name__ == "__main__":  # pragma: no cover
+    create_db()
     main()
